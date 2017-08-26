@@ -1,0 +1,1830 @@
+/*
+Vivify
+version: 1.0
+Licensed under the MIT license - http://opensource.org/licenses/MIT
+
+The MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+/* 
+    Copyright (c) 2017 Martin Knize.
+
+*/
+
+
+//------------------------------------------------------------------------------
+// MIXINS
+//------------------------------------------------------------------------------
+
+@mixin name($name) {
+    -webkit-animation-name: $name;
+    animation-name: $name;
+}
+
+@mixin delay($time) {
+    -webkit-animation-delay: $time;
+    animation-delay: $time;
+}
+
+@mixin bezier($bezier) {
+    -webkit-animation-timing-function: $bezier;
+    animation-timing-function: $bezier;
+}
+
+@mixin transform($transform...) {
+    -webkit-transform: $transform;
+    transform: $transform;
+}
+
+@mixin duration($time) {
+    -webkit-animation-duration: $time;
+    animation-duration: $time;
+}
+
+@mixin transformOrigin($origin) {
+    -webkit-transform-origin: $origin;
+    transform-origin: $origin;
+}
+
+@mixin backFaceVisibility($state) {
+    -webkit-backface-visibility: $state;
+    backface-visibility: $state;
+}
+
+//**********
+
+//------------------------------------------------------------------------------
+// EASINGS
+//------------------------------------------------------------------------------
+
+// Cubic
+$easeInCubic    : cubic-bezier(0.550, 0.055, 0.675, 0.190);
+$easeOutCubic   : cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeInOutCubic : cubic-bezier(0.645, 0.045, 0.355, 1.000);
+
+// Circ
+$easeInCirc     : cubic-bezier(0.600, 0.040, 0.980, 0.335);
+$easeOutCirc    : cubic-bezier(0.075, 0.820, 0.165, 1.000);
+$easeInOutCirc  : cubic-bezier(0.785, 0.135, 0.150, 0.860);
+
+// Expo
+$easeInExpo     : cubic-bezier(0.950, 0.050, 0.795, 0.035);
+$easeOutExpo    : cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$easeInOutExpo  : cubic-bezier(1.000, 0.000, 0.000, 1.000);
+
+// Quad
+$easeInQuad     : cubic-bezier(0.550, 0.085, 0.680, 0.530);
+$easeOutQuad    : cubic-bezier(0.250, 0.460, 0.450, 0.940);
+$easeInOutQuad  : cubic-bezier(0.455, 0.030, 0.515, 0.955);
+
+// Quart
+$easeInQuart    : cubic-bezier(0.895, 0.030, 0.685, 0.220);
+$easeOutQuart   : cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$easeInOutQuart : cubic-bezier(0.770, 0.000, 0.175, 1.000);
+
+// Quint
+$easeInQuint    : cubic-bezier(0.755, 0.050, 0.855, 0.060);
+$easeOutQuint   : cubic-bezier(0.230, 1.000, 0.320, 1.000);
+$easeInOutQuint : cubic-bezier(0.860, 0.000, 0.070, 1.000);
+
+// Sine
+$easeInSine     : cubic-bezier(0.470, 0.000, 0.745, 0.715);
+$easeOutSine    : cubic-bezier(0.390, 0.575, 0.565, 1.000);
+$easeInOutSine  : cubic-bezier(0.445, 0.050, 0.550, 0.950);
+
+// Back
+$easeInBack     : cubic-bezier(0.600, -0.280, 0.735, 0.045);
+$easeOutBack    : cubic-bezier(0.175,  0.885, 0.320, 1.275);
+$easeInOutBack  : cubic-bezier(0.680, -0.550, 0.265, 1.550);
+
+// classic
+$easeInOut      : cubic-bezier(0.420, 0.000, 0.580, 1.000);
+
+//------------------------------------------------------------------------------
+// MAIN CLASSES
+//------------------------------------------------------------------------------
+
+.vivify {
+    -webkit-animation-duration: .8s;
+    -webkit-animation-fill-mode: both;
+    animation-duration: .8s;
+    animation-fill-mode: both;
+}
+
+.infinite {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite; 
+}
+
+//**********
+
+
+//------------------------------------------------------------------------------
+// SINGLE ANIMATIONS
+//------------------------------------------------------------------------------
+
+.pulsate {
+    @include name(pulsate); 
+    @include transformOrigin(center);
+}
+
+@keyframes pulsate {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1,1,1));
+    }
+    50% {
+        @include transform(scale3d(.8,.8,.8));
+    }
+    100% {
+        @include bezier($easeInQuart);
+        @include transform(scale3d(1,1,1));
+    }
+}
+
+.blink {
+    @include name(blink);
+    @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+    @include duration(1s);
+}
+
+@keyframes blink {
+
+    0% {
+        opacity: 1;
+    }
+
+    25% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+.hitLeft {
+    @include name(hitLeft);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes hitLeft {
+    0% {
+        @include bezier($easeOutQuint);
+        @include transform(translateX(0)); 
+    }
+
+    40% {
+        @include bezier($easeInSine);
+        @include transform(translateX(20px) rotate(4deg));
+    }
+}
+
+.hitRight {
+    @include name(hitRight);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes hitRight {
+    0% {
+        @include bezier($easeOutQuint);
+        @include transform(translateX(0)); 
+    }
+
+    40% {
+        @include bezier($easeInSine);
+        @include transform(translateX(-20px) rotate(-4deg));
+    }
+}
+
+.shake {
+    @include name(shake);
+    @include duration(1s);
+    @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+}
+
+@keyframes shake {
+
+    10% {
+        @include transform(translateX(-10px));
+    }
+    20% {
+        @include transform(translateX(10px));
+    }
+    30% {
+        @include transform(translateX(-10px));
+    }
+    40% {
+        @include transform(translateX(10px));
+    }
+    50% {
+        @include transform(translateX(-10px));
+    }
+    60% {
+        @include transform(translateX(10px));
+    }
+    70% {
+        @include transform(translateX(-10px));
+    }
+    80% {
+        @include transform(translateX(10px));
+    }
+    90% {
+        @include transform(translateX(-10px));
+    }
+
+}
+
+
+.ball {
+    @include name(ball);
+    @include duration(2s);
+}
+
+@keyframes ball {
+    0% {
+        @include bezier(cubic-bezier(0.175, 0.885, 0.320, 1.275));
+        @include transform(translate3d(0,0,0)); 
+    }
+    20% {
+        @include bezier(cubic-bezier(0.420, 0.000, 1.000, 1.000));
+        @include transform(translate3d(0,-100px,0));
+    }
+    40% {
+        @include bezier(cubic-bezier(0.000, 0.000, 0.580, 1.000));
+        @include transform(translate3d(0,0,0)); 
+    }
+    60% {
+        @include bezier(cubic-bezier(0.420, 0.000, 1.000, 1.000));
+        @include transform(translate3d(0,-30px,0));
+    }
+    75% {
+        @include bezier(cubic-bezier(0.000, 0.000, 0.580, 1.000));
+        @include transform(translate3d(0,0,0)); 
+    }
+    85% {
+        @include bezier(cubic-bezier(0.420, 0.000, 1.000, 1.000));
+        @include transform(translate3d(0,-15px,0));
+    }
+    100% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(translate3d(0,0,0));
+    }
+}
+
+
+//**********
+
+//------------------------------------------------------------------------------
+// PULL ANIMATIONS
+//------------------------------------------------------------------------------
+
+.pullUp {
+    @include name(pullUp);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes pullUp {
+    0% {
+        @include transform(scale3d(0,0,0));
+    }
+    30% {
+        @include bezier($easeOutCubic);
+        @include transform(scale3d(1,0,1));
+        @include transformOrigin(center bottom);
+    }
+    100% {
+        @include bezier($easeInQuint);
+        @include transform(scale3d(1,1,1)); 
+    }
+}
+
+.pullDown {
+    @include name(pullDown);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes pullDown {
+    0% {
+        @include transform(scale3d(0,0,0));
+    }
+    50% {
+        @include bezier($easeOutCubic);
+        @include transform(scale3d(1,0,1));
+        @include transformOrigin(center top);
+    }
+    100% {
+        @include bezier($easeInQuint);
+        @include transform(scale3d(1,1,1)); 
+    }
+}
+
+.pullLeft {
+    @include name(pullLeft);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes pullLeft {
+    0% {
+        @include transform(scale3d(0,1,1));
+    }
+    50% {
+        @include bezier($easeOutCubic);
+        @include transform(scale3d(0,1,1));
+        @include transformOrigin(center left);
+    }
+    100% {
+        @include bezier($easeInQuint);
+        @include transform(scale3d(1,1,1)); 
+    }
+}
+
+.pullRight {
+    @include name(pullRight);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes pullRight {
+    0% {
+        @include transform(scale3d(0,1,1));
+    }
+    50% {
+        @include bezier($easeOutCubic);
+        @include transform(scale3d(0,1,1));
+        @include transformOrigin(center right);
+    }
+    100% {
+        @include bezier($easeInQuint);
+        @include transform(scale3d(1,1,1)); 
+    }
+}
+
+//**********
+
+
+//------------------------------------------------------------------------------
+// JUMP ANIMATIONS
+//------------------------------------------------------------------------------
+
+.jumpInLeft {
+    @include name(jumpInLeft);
+    @include bezier($easeOutQuad);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes jumpInLeft {
+    0% {
+        opacity: 0;
+        @include transform(scale3d(0.5, 0.5, 0.5) rotate(-90deg));
+    }
+
+    50% {
+        opacity: 1;
+        @include transform(scale3d(1.2, 1.2, 1.2) rotate(10deg));
+    }
+    70% {
+        @include transform(scale3d(0.9, 0.9, 0.9) rotate(-5deg));
+    }
+    90% {
+        @include transform(scale3d(1, 1, 1) rotate(0deg));  
+    }
+
+}
+
+.jumpInRight {
+    @include name(jumpInRight);
+    @include bezier($easeOutQuad);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes jumpInRight {
+    0% {
+        opacity: 0;
+        @include transform(scale3d(0.5, 0.5, 0.5) rotate(90deg));
+    }
+
+    50% {
+        opacity: 1;
+        @include transform(scale3d(1.2, 1.2, 1.2) rotate(-10deg));
+    }
+    70% {
+        @include transform(scale3d(0.9, 0.9, 0.9) rotate(5deg));
+    }
+    90% {
+        @include transform(scale3d(1, 1, 1) rotate(0deg));  
+    }
+
+}
+
+.jumpOutRight {
+    @include name(jumpOutRight);
+    @include bezier($easeOutQuad);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes jumpOutRight {
+    0% {
+        @include transform(scale3d(1, 1, 1) rotate(0deg));  
+    }
+    30% {
+        @include transform(scale3d(0.9, 0.9, 0.9) rotate(5deg));
+    }
+    70% {
+        opacity: 1;
+        @include transform(scale3d(1.2, 1.2, 1.2) rotate(-10deg));
+    }
+    100% {
+        opacity: 0;
+        @include transform(scale3d(0.5, 0.5, 0.5) rotate(90deg));
+    }
+}
+
+.jumpOutLeft {
+    @include name(jumpOutLeft);
+    @include bezier($easeOutQuad);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes jumpOutLeft {
+    0% {
+        @include transform(scale3d(1, 1, 1) rotate(0deg));  
+    }
+    30% {
+        @include transform(scale3d(0.9, 0.9, 0.9) rotate(-5deg));
+    }
+    70% {
+        opacity: 1;
+        @include transform(scale3d(1.2, 1.2, 1.2) rotate(10deg));
+    }
+    100% {
+        opacity: 0;
+        @include transform(scale3d(0.5, 0.5, 0.5) rotate(-90deg));
+    }
+}
+
+
+//**********
+
+//------------------------------------------------------------------------------
+// ROLL ANIMATIONS
+//------------------------------------------------------------------------------
+
+.rollInLeft {
+    @include name(rollInLeft);
+    @include duration(.9s);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes rollInLeft {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(translateX(-400px) rotate(445deg));
+        opacity: 0;
+    }
+    30% { 
+        opacity: 1;
+    }
+    50% {
+        @include transform(translateX(20px) rotate(20deg)); 
+    }
+    100% {
+        @include bezier($easeInOutQuad);
+        @include transform(translateX(0) rotate(0deg));
+    }
+}
+
+.rollInRight {
+    @include name(rollInRight);
+    @include duration(.9s);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes rollInRight {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(translateX(400px) rotate(-445deg));
+        opacity: 0;
+    }
+    30% { 
+        opacity: 1;
+    }
+    50% {
+        @include transform(translateX(-20px) rotate(-20deg)); 
+    }
+    100% {
+        @include bezier($easeInOutQuad);
+        @include transform(translateX(0) rotate(0deg));
+    }
+}
+
+
+.rollInTop {
+    @include name(rollInTop);
+    @include duration(.9s);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes rollInTop {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(translateY(-400px) rotate(-445deg));
+        opacity: 0;
+    }
+    30% { 
+        opacity: 1;
+    }
+    50% {
+        @include transform(translateY(20px) rotate(-20deg)); 
+    }
+    100% {
+        @include bezier($easeInOutQuad);
+        @include transform(translateY(0) rotate(0deg));
+    }
+}
+
+.rollInBottom {
+    @include name(rollInBottom);
+    @include duration(.9s);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes rollInBottom {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(translateY(400px) rotate(-445deg));
+        opacity: 0;
+    }
+    30% { 
+        opacity: 1;
+    }
+    50% {
+        @include transform(translateY(-20px) rotate(-20deg)); 
+    }
+    100% {
+        @include bezier($easeInOutQuad);
+        @include transform(translateY(0) rotate(0deg));
+    }
+}
+
+
+.rollOutLeft {
+    @include name(rollOutLeft);
+    @include duration(.9s);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes rollOutLeft {
+    0% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(translateX(0) rotate(0deg));
+    }
+    40% {
+        opacity: 1;
+        @include transform(translateX(20px) rotate(-20deg)); 
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutQuad);
+        @include transform(translateX(-400px) rotate(-445deg));
+    }
+}
+
+.rollOutRight {
+    @include name(rollOutRight);
+    @include duration(.9s);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes rollOutRight {
+    0% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(translateX(0) rotate(0deg));
+    }
+    40% {
+        opacity: 1;
+        @include transform(translateX(-20px) rotate(20deg)); 
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutQuad);
+        @include transform(translateX(400px) rotate(445deg));
+    }
+}
+
+.rollOutTop {
+    @include name(rollOutTop);
+    @include duration(.9s);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes rollOutTop {
+    0% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(translateY(0) rotate(0deg));
+    }
+    40% {
+        opacity: 1;
+        @include transform(translateY(20px) rotate(20deg)); 
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutQuad);
+        @include transform(translateY(-400px) rotate(445deg));
+    }
+}
+
+.rollOutBottom {
+    @include name(rollOutBottom);
+    @include duration(.9s);
+    @include backFaceVisibility(hidden);
+}
+
+@keyframes rollOutBottom {
+    0% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(translateY(0) rotate(0deg));
+    }
+    40% {
+        opacity: 1;
+        @include transform(translateY(-20px) rotate(-20deg)); 
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutQuad);
+        @include transform(translateY(400px) rotate(-445deg));
+    }
+}
+
+//**********
+
+//------------------------------------------------------------------------------
+// POP ANIMATIONS
+//------------------------------------------------------------------------------
+
+.popIn {
+    @include name(popIn);
+}
+
+@keyframes popIn {
+    0% {
+        @include transform(scale3d(0, 0, 0));
+        opacity: 0;
+    }
+    20% { opacity: 1; }
+    40% {
+        @include bezier($easeInSine);
+        @include transform(scale3d(1.08, 1.08, 1.08));
+    }
+    60% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1, 1, 1));
+    }
+    80% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1.03, 1.03, 1.03));
+    }
+    100% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1, 1, 1));
+    }
+}
+
+.popInLeft {
+    @include name(popInLeft);
+}
+
+@keyframes popInLeft {
+    0% {
+        opacity: 0;
+        @include transform(translate3d(-200px, 0, 0) scale3d(.1, .1, .1));
+    }
+    40% {
+        opacity: 1;
+        @include transform(translate3d(0, 0, 0) scale3d(1.08, 1.08, 1.08));
+        @include bezier($easeInSine);
+    }
+    60% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1, 1, 1));
+    }
+    80% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1.03, 1.03, 1.03));
+    }
+    100% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1, 1, 1));
+    }
+}
+
+.popInRight {
+    @include name(popInRight);
+}
+
+@keyframes popInRight {
+    0% {
+        @include transform(translate3d(200px, 0, 0) scale3d(.1, .1, .1));
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+        @include bezier($easeInSine);
+        @include transform(translate3d(0,0,0) scale3d(1.08, 1.08, 1.08));
+    }
+    60% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1, 1, 1));
+    }
+    80% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1.03, 1.03, 1.03));
+    }
+    100% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1, 1, 1));
+    }
+}
+
+.popInTop {
+    @include name(popInTop);
+}
+
+@keyframes popInTop {
+    0% {
+        @include transform(translate3d(0,-200px,0) scale3d(.1, .1, .1));
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+        @include bezier($easeInSine);
+        @include transform(translate3d(0,0,0) scale3d(1.08, 1.08, 1.08));
+    }
+    60% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(translate3d(0,0,0) scale3d(1, 1, 1));
+    }
+    80% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(translate3d(0,0,0) scale3d(1.03, 1.03, 1.03));
+    }
+    100% {
+        @include bezier($easeOutQuad);
+        @include transform(translate3d(0,0,0) scale3d(1, 1, 1));
+    }
+}
+
+.popInBottom {
+    @include name(popInBottom);
+}
+
+@keyframes popInBottom {
+    0% {
+        @include transform(translate3d(0,200px,0) scale3d(.1, .1, .1));
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+        @include bezier($easeInSine);
+        @include transform(translate3d(0,0,0) scale3d(1.08, 1.08, 1.08));
+    }
+    60% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(translate3d(0,0,0) scale3d(1, 1, 1));
+    }
+    80% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(translate3d(0,0,0) scale3d(1.03, 1.03, 1.03));
+    }
+    100% {
+        @include bezier($easeOutQuad);
+        @include transform(translate3d(0,0,0) scale3d(1, 1, 1));
+    }
+}
+
+
+.popOut {
+    @include name(popOut);
+    @include duration(.5s);
+}
+
+@keyframes popOut {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1.0, 1.0, 1.0));
+    }
+    60% {
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1.08, 1.08, 1.08));
+    }
+    80% { opacity: 1; 
+          @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+    }
+
+
+    100% {
+        opacity: 0;
+        @include bezier($easeInSine);
+        @include transform(scale3d(.3, .3, .3));
+
+    }
+}
+
+.popOutLeft {
+    @include name(popOutLeft);
+    @include duration(.5s);
+}
+
+@keyframes popOutLeft {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1, 1, 1) translate3d(0,0,0));
+        @include transformOrigin(left center);
+    }
+
+    40% {
+        opacity: 1;
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1.08, 1.08, 1.08) translate3d(0,0,0));
+    }
+
+
+    100% {
+        opacity: 0;
+        @include bezier($easeInSine);
+        @include transform(scale3d(.5, .5, .5) translate3d(-200px,0,0));
+
+    }
+}
+
+.popOutRight {
+    @include name(popOutRight);
+    @include backFaceVisibility(hidden);
+    @include duration(.5s);
+}
+
+@keyframes popOutRight {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1, 1, 1) translate3d(0,0,0));
+        @include transformOrigin(right center);
+    }
+
+    40% {
+        opacity: 1;
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1.08, 1.08, 1.08) translate3d(0,0,0));
+    }
+
+    100% {
+        opacity: 0;
+        @include bezier($easeInSine);
+        @include transform(scale3d(.5, .5, .5) translate3d(200px,0,0));
+
+    }
+}
+
+.popOutTop {
+    @include name(popOutTop);
+    @include backFaceVisibility(hidden);
+    @include duration(.5s);
+}
+
+@keyframes popOutTop {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1, 1, 1) translate3d(0,0,0));
+        @include transformOrigin(top center);
+    }
+
+    40% {
+        opacity: 1;
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1.08, 1.08, 1.08) translate3d(0,0,0));
+    }
+
+    100% {
+        opacity: 0;
+        @include bezier($easeInSine);
+        @include transform(scale3d(.5, .5, .5) translate3d(0,-400px,0));
+
+
+    }
+}
+
+.popOutBottom {
+    @include name(popOutBottom);
+    @include backFaceVisibility(hidden);
+    @include duration(.5s);
+}
+
+@keyframes popOutBottom {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1, 1, 1) translate3d(0,0,0));
+        @include transformOrigin(bottom center);
+    }
+
+    40% {
+        opacity: 1;
+        @include bezier(cubic-bezier(0.420, 0.000, 0.580, 1.000));
+        @include transform(scale3d(1.08, 1.08, 1.08) translate3d(0,0,0));
+    }
+
+    100% {
+        opacity: 0;
+        @include bezier($easeInSine);
+        @include transform(scale3d(.5, .5, .5) translate3d(0,400px,0));
+
+
+    }
+}
+
+//**********
+
+
+//------------------------------------------------------------------------------
+// FLIP ANIMATIONS
+//------------------------------------------------------------------------------
+
+.flip {
+    @include name(flip);
+}
+
+@keyframes flip {
+    from {
+        @include transform(perspective(400px) rotateY(-360deg) scale3d(1, 1, 1));
+        @include bezier($easeOutQuad);
+    }
+    50% {
+        @include transform(perspective(400px)rotateY(-180deg) scale3d(1.2, 1.2, 1.2)); 
+        @include bezier($easeOutQuad);
+    }
+    to {
+        @include transform(perspective(400px) rotateY(-0deg)  scale3d(1, 1, 1)); 
+        @include bezier($easeInExpo);
+    }
+}
+
+.flipInX {
+    @include name(flipInX);
+    @include duration(1s);
+}
+
+@keyframes flipInX {
+    from {
+        opacity: 0;
+        @include transform(perspective(400px) rotateX(90deg) scale3d(1.2, 1.2, 1.2));
+    } 
+    50% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(perspective(400px) rotateX(-20deg) scale3d(1, 1, 1));
+    }
+    to {
+
+        @include transform(perspective(400px) rotateX(0deg) scale3d(1, 1, 1));
+    }
+}
+
+.flipInY {
+    @include name(flipInY);
+    @include duration(1s);
+}
+
+@keyframes flipInY {
+    from {
+        opacity: 0;
+        @include transform(perspective(400px) rotateY(90deg) scale3d(1.2, 1.2, 1.2));
+    } 
+    50% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(perspective(400px) rotateY(-20deg) scale3d(1, 1, 1));
+    }
+    to {
+        @include transform(perspective(400px) rotateY(0deg) scale3d(1, 1, 1));
+    }
+}
+
+.flipOutX {
+    @include name(flipOutX);
+}
+
+@keyframes flipOutX {
+
+    from {
+        @include transform(perspective(400px) rotateX(0deg) scale3d(1, 1, 1)); 
+    }
+    60% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(perspective(400px) rotateX(-30deg) scale3d(1, 1, 1));
+    }
+    to {
+        opacity: 0;
+        @include transform(perspective(400px) rotateX(90deg) scale3d(1.2, 1.2, 1.2));
+    }
+
+}
+
+.flipOutY {
+    @include name(flipOutY);
+}
+
+@keyframes flipOutY {
+
+    from {
+        @include transform(perspective(400px) rotateY(0deg) scale3d(1, 1, 1)); 
+    }
+    60% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(perspective(400px) rotateY(-30deg) scale3d(1, 1, 1));
+    }
+    to {
+        opacity: 0;
+        @include transform(perspective(400px) rotateY(90deg) scale3d(1.2, 1.2, 1.2));
+    }
+
+}
+
+
+//------------------------------------------------------------------------------
+// FADE ANIMATIONS
+//------------------------------------------------------------------------------
+
+.fadeIn {
+    @include name(fadeIn);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.fadeInRight {
+    @include name(fadeInRight);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeInRight {
+    0% {
+        @include transform(translate3d(400px,0,0));
+        opacity: 0;
+    }
+    100% {
+        @include transform(translate3d(0,0,0));
+        opacity: 1;
+    }
+}
+
+.fadeInLeft {
+    @include name(fadeInLeft);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeInLeft {
+    0% {
+        @include transform(translate3d(-400px,0,0));
+        opacity: 0;
+    }
+    100% {
+        @include transform(translate3d(0,0,0));
+        opacity: 1;
+    }
+}
+
+.fadeInTop {
+    @include name(fadeInTop);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeInTop {
+    0% {
+        @include transform(translate3d(0,-400px,0));
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.2;
+    }
+    100% {
+        @include transform(translate3d(0,0,0));
+        opacity: 1;
+    }
+}
+
+.fadeInBottom {
+    @include name(fadeInBottom);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeInBottom {
+    0% {
+        @include transform(translate3d(0,400px,0));
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.2;
+    }
+    100% {
+        @include transform(translate3d(0,0,0));
+        opacity: 1;
+    }
+}
+
+.fadeOut {
+    @include name(fadeOut);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.fadeOutLeft {
+    @include name(fadeOutLeft);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeOutLeft {
+    0% {
+        @include transform(translate3d(0,0,0));
+        opacity: 1;
+    }
+    100% {
+        @include transform(translate3d(-400px,0,0));
+        opacity: 0;
+    }
+}
+
+.fadeOutRight {
+    @include name(fadeOutRight);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeOutRight {
+    0% {
+        @include transform(translate3d(0,0,0));
+        opacity: 1;
+    }
+    100% {
+        @include transform(translate3d(400px,0,0));
+        opacity: 0;
+    }
+}
+
+.fadeOutTop {
+    @include name(fadeOutTop);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeOutTop {
+    0% {
+        @include transform(translate3d(0,0,0));
+        opacity: 1;
+    }
+    40% {
+        opacity: 0.2;
+    }
+    100% {
+        @include transform(translate3d(0,-300px,0));
+        opacity: 0;
+    }
+}
+
+.fadeOutBottom {
+    @include name(fadeOutBottom);
+    @include bezier($easeInOutQuad);
+}
+
+@keyframes fadeOutBottom {
+    0% {
+        @include transform(translate3d(0,0,0));
+        opacity: 1;
+    }
+    40% {
+        opacity: 0.2;
+    }
+    100% {
+        @include transform(translate3d(0,300px,0));
+        opacity: 0;
+    }
+}
+
+
+//------------------------------------------------------------------------------
+// DRIVE ANIMATIONS
+//------------------------------------------------------------------------------
+
+.driveInLeft {
+    @include name(driveInLeft);
+    @include duration(1s);
+}
+
+@keyframes driveInLeft {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(-400px,0,0));
+    }
+    30% { opacity: 1; }
+    60% {
+        @include bezier($easeInCubic);
+        @include transform(translate3d(30px,0,0)); 
+    }
+    100% {
+        @include bezier($easeInOutCubic);
+        @include transform(translate3d(0,0,0));
+    }
+}
+
+.driveInRight {
+    @include name(driveInRight);
+    @include duration(1s);
+}
+
+@keyframes driveInRight {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(400px,0,0));
+    }
+    30% { opacity: 1; }
+    60% {
+        @include bezier($easeInCubic);
+        @include transform(translate3d(-30px,0,0)); 
+    }
+    100% {
+        @include bezier($easeInOutCubic);
+        @include transform(translate3d(0,0,0));
+    }
+}
+
+.driveInTop {
+    @include name(driveInTop);
+    @include duration(1s);
+}
+
+@keyframes driveInTop {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(0,-400px,0));
+    }
+    30% { opacity: 1; }
+    60% {
+        @include bezier($easeInCubic);
+        @include transform(translate3d(0,30px,0)); 
+    }
+    100% {
+        @include bezier($easeInOutCubic);
+        @include transform(translate3d(0,0,0));
+    }
+}
+
+
+.driveInBottom {
+    @include name(driveInBottom);
+    @include duration(1s);
+}
+
+@keyframes driveInBottom {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(0,300px,0));
+    }
+    30% { opacity: 1; }
+    60% {
+        @include bezier($easeInCubic);
+        @include transform(translate3d(0,-30px,0)); 
+    }
+    100% {
+        @include bezier($easeInOutCubic);
+        @include transform(translate3d(0,0,0));
+    }
+}
+
+.driveOutLeft {
+    @include name(driveOutLeft);
+    @include duration(1s);
+}
+
+@keyframes driveOutLeft {
+
+    0% {
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(0,0,0));
+    }
+    30% {
+        @include bezier($easeInCubic);
+        @include transform(translate3d(30px,0,0)); 
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(-400px,0,0));
+    }
+
+}
+
+.driveOutRight {
+    @include name(driveOutRight);
+    @include duration(1s);
+}
+
+@keyframes driveOutRight {
+
+    0% {
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(0,0,0));
+    }
+    30% {
+        @include bezier($easeInCubic);
+        @include transform(translate3d(-30px,0,0)); 
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(400px,0,0));
+    }
+
+}
+
+.driveOutTop {
+    @include name(driveOutTop);
+    @include duration(1s);
+}
+
+@keyframes driveOutTop {
+
+    0% {
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(0,0,0));
+    }
+    30% {
+        @include bezier($easeInCubic);
+        @include transform(translate3d(0,30px,0)); 
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(0,-400px,0));
+    }
+
+}
+
+.driveOutBottom {
+    @include name(driveOutBottom);
+    @include duration(1s);
+}
+
+@keyframes driveOutBottom {
+
+    0% {
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(0,0,0));
+    }
+    30% {
+        @include bezier($easeInCubic);
+        @include transform(translate3d(0,-30px,0)); 
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutQuart);
+        @include transform(translate3d(0,300px,0));
+    }
+
+}
+
+
+//------------------------------------------------------------------------------
+// SPIN ANIMATIONS
+//------------------------------------------------------------------------------
+
+.spin {
+    @include name(spin);
+    @include duration(1.2s);
+}
+
+@keyframes spin {
+    0% {
+        @include bezier($easeInQuint);
+        @include transform(rotateZ(0deg));
+        @include transformOrigin(center center);
+    }
+    20% {
+        @include bezier($easeOutQuart);
+        @include transform(rotateZ(-20deg));
+        @include transformOrigin(center center);
+    }
+    70% {
+        @include bezier($easeInOut);
+        @include transform(rotateZ(380deg));
+        @include transformOrigin(center center);
+    }
+    100% {
+        @include bezier($easeInSine);
+        @include transform(rotateZ(360deg));
+        @include transformOrigin(center center);
+    }
+}
+
+.spinIn {
+    @include name(spinIn);
+    @include duration(1s);
+}
+
+@keyframes spinIn {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutQuint);
+        @include transform(rotateZ(0deg) scale3d(0, 0, 0));
+        @include transformOrigin(center center);
+    }
+    50% {opacity: 1}
+    70% {
+        @include transform(rotateZ(380deg) scale3d(1, 1, 1));
+        @include transformOrigin(center center);
+    }
+    100% {
+        @include transform(rotateZ(360deg) scale3d(1, 1, 1));
+        @include transformOrigin(center center);
+    }
+}
+
+.spinOut {
+    @include name(spinOut);
+    @include duration(1s);
+}
+
+@keyframes spinOut {
+
+    0% {
+        @include bezier($easeOutQuint);
+        @include transform(rotateZ(0deg) scale3d(1, 1, 1));
+        @include transformOrigin(center center);
+    }
+    20% {
+        opacity: 1;
+        @include bezier($easeOutQuart);
+        @include transform(rotateZ(-20deg) scale3d(1, 1, 1));
+        @include transformOrigin(center center);
+    }
+    30% { opacity: 1; }
+    100% {
+        opacity: 0;
+        @include bezier($easeInSine);
+        @include transform(rotateZ(360deg) scale3d(0, 0, 0));
+        @include transformOrigin(center center);
+    }
+}
+
+
+//------------------------------------------------------------------------------
+// SWOOP ANIMATIONS
+//------------------------------------------------------------------------------
+
+.swoopInLeft {
+    @include name(swoopInLeft);
+    @include duration(.5s);
+}
+
+@keyframes swoopInLeft {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutCubic);
+        @include transform(scaleX(1.5) translate3d(-400px,0,0));
+    }
+    40% {
+        opacity: 1;
+        @include bezier($easeInOut);
+        @include transform(scaleX(1.2) translate3d(0,0,0));
+    }
+    65% {
+        @include transform(scaleX(1) translate3d(20px,0,0) );
+    }
+    100% {
+        @include bezier($easeInOut);
+        @include transform(scaleX(1) translate3d(0,0,0));
+    }
+}
+
+.swoopInRight {
+    @include name(swoopInRight);
+    @include duration(.5s);
+}
+
+@keyframes swoopInRight {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutCubic);
+        @include transform(scaleX(1.5) translate3d(400px,0,0));
+    }
+    40% {
+        opacity: 1;
+        @include bezier($easeInOut);
+        @include transform(scaleX(1.2) translate3d(0,0,0));
+    }
+    65% {
+        @include transform(scaleX(1) translate3d(-20px,0,0) );
+    }
+    100% {
+        @include bezier($easeInOut);
+        @include transform(scaleX(1) translate3d(0,0,0));
+    }
+}
+
+.swoopInTop {
+    @include name(swoopInTop);
+    @include duration(.5s);
+}
+
+@keyframes swoopInTop {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutCubic);
+        @include transform(scaleY(1.5) translate3d(0,-400px,0));
+    }
+    40% {
+        opacity: 1;
+        @include bezier($easeInOut);
+        @include transform(scaleY(1.2) translate3d(0,0,0));
+    }
+    65% {
+        @include transform(scaleY(1) translate3d(0,20px,0) );
+    }
+    100% {
+        @include bezier($easeInOut);
+        @include transform(scaleY(1) translate3d(0,0,0));
+    }
+}
+
+.swoopInBottom {
+    @include name(swoopInBottom);
+    @include duration(.5s);
+}
+
+@keyframes swoopInBottom {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutCubic);
+        @include transform(scaleY(1.5) translate3d(0,250px,0));
+    }
+    40% {
+        opacity: 1;
+        @include bezier($easeInOut);
+        @include transform(scaleY(1.2) translate3d(0,0,0));
+    }
+    65% {
+        @include transform(scaleY(1) translate3d(0,-20px,0) );
+    }
+    100% {
+        @include bezier($easeInOut);
+        @include transform(scaleY(1) translate3d(0,0,0));
+    }
+}
+
+.swoopOutLeft {
+    @include name(swoopOutLeft);
+    @include duration(.5s);
+}
+
+@keyframes swoopOutLeft {
+
+    0% {
+        @include bezier($easeInOut);
+        @include transform(scaleX(1) translate3d(0,0,0));
+    }
+    40% {
+        opacity: 1;
+        @include transform(scaleX(1) translate3d(20px,0,0) );
+    }
+    60% {
+        @include bezier($easeInOut);
+        @include transform(scaleX(1.2) translate3d(0,0,0));
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutCubic);
+        @include transform(scaleX(1.5) translate3d(-400px,0,0));
+    }
+}
+
+.swoopOutRight {
+    @include name(swoopOutRight);
+    @include duration(.5s);
+}
+
+@keyframes swoopOutRight {
+
+    0% {
+        @include bezier($easeInOut);
+        @include transform(scaleX(1) translate3d(0,0,0));
+    }
+    40% {
+        opacity: 1;
+        @include transform(scaleX(1) translate3d(-20px,0,0) );
+    }
+    60% {
+        @include bezier($easeInOut);
+        @include transform(scaleX(1.2) translate3d(0,0,0));
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutCubic);
+        @include transform(scaleX(1.5) translate3d(400px,0,0));
+    }
+}
+
+.swoopOutTop {
+    @include name(swoopOutTop);
+    @include duration(.5s);
+}
+
+@keyframes swoopOutTop {
+
+    0% {
+        @include bezier($easeInOut);
+        @include transform(scaleY(1) translate3d(0,0,0));
+    }
+    40% {
+        opacity: 1;
+        @include transform(scaleY(1) translate3d(0,20px,0) );
+    }
+    60% {
+        @include bezier($easeInOut);
+        @include transform(scaleY(1.2) translate3d(0,0,0));
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutCubic);
+        @include transform(scaleY(1.5) translate3d(0,-400px,0));
+    }
+}
+
+.swoopOutBottom {
+    @include name(swoopOutBottom);
+    @include duration(.5s);
+}
+
+@keyframes swoopOutBottom {
+
+    0% {
+        @include bezier($easeInOut);
+        @include transform(scaleY(1) translate3d(0,0,0));
+    }
+    40% {
+        opacity: 1;
+        @include transform(scaleY(1) translate3d(0,-20px,0) );
+    }
+    60% {
+        @include bezier($easeInOut);
+        @include transform(scaleY(1.2) translate3d(0,0,0));
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeOutCubic);
+        @include transform(scaleY(1.5) translate3d(0,200px,0));
+    }
+}
+
+
+
+//------------------------------------------------------------------------------
+// FOLD ANIMATIONS
+//------------------------------------------------------------------------------
+
+.fold {
+    @include name(fold);
+}
+
+@keyframes fold {
+    0% {
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(1,1,1)); 
+    }
+    30% {
+        @include bezier($easeInOutQuad);
+        @include transform(scale3d(1,.4,1));  
+    }
+    60% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(scale3d(.4,.4,1)); 
+    }
+    100% {
+        opacity: 0;
+        @include bezier($easeInQuad);
+        @include transform(scale3d(.2,.2,.2)); 
+    }  
+}
+
+
+.unfold {
+    @include name(unfold);
+}
+
+@keyframes unfold {
+    0% {
+        opacity: 0;
+        @include bezier($easeOutQuad);
+        @include transform(scale3d(0,0,0)); 
+    }
+    30% {
+        opacity: 1;
+        @include bezier($easeInOutQuad);
+        @include transform(scale3d(.4,.4,1));  
+    }
+    60% {
+        @include bezier($easeInOutQuad);
+        @include transform(scale3d(.4,1,1)); 
+    }
+    100% {
+        @include bezier($easeInQuad);
+        @include transform(scale3d(1,1,1));  
+    }  
+}
+
+
+//------------------------------------------------------------------------------
+// DELAY CLASSES
+//------------------------------------------------------------------------------
+
+@for $i from 1 through 9 {
+    .delay-#{$i}#{"00"} { @include delay(#{"."}#{$i}#{"s"}); }
+    .delay-#{$i}#{"50"} { @include delay(#{$i}#{"50ms"}); }
+    .duration-#{$i}#{"00"} { @include duration(#{"."}#{$i}#{"s"}); }
+    .duration-#{$i}#{"50"} { @include duration(#{$i}#{"50ms"}); }
+}
+
+@for $i from 1 through 5 {
+    .delay-#{$i}#{"000"} { @include delay(#{$i}#{"s"}); }
+    .delay-#{$i}#{"250"} { @include delay(#{$i}#{"250ms"}); }
+    .delay-#{$i}#{"500"} { @include delay(#{$i}#{".5"}#{"s"}); }
+    .delay-#{$i}#{"750"} { @include delay(#{$i}#{"750ms"}); }
+    .duration-#{$i}#{"000"} { @include duration(#{$i}#{"s"}); }
+    .duration-#{$i}#{"250"} { @include duration(#{$i}#{"250ms"}); }
+    .duration-#{$i}#{"500"} { @include duration(#{$i}#{".5"}#{"s"}); }
+    .duration-#{$i}#{"750"} { @include duration(#{$i}#{"750ms"}); }
+}
+
+@for $i from 6 through 10 {
+    .duration-#{$i}#{"000"} { @include duration(#{$i}#{"s"}); }
+    .duration-#{$i}#{"250"} { @include duration(#{$i}#{"250ms"}); }
+    .duration-#{$i}#{"500"} { @include duration(#{$i}#{".5"}#{"s"}); }
+    .duration-#{$i}#{"750"} { @include duration(#{$i}#{"750ms"}); }
+}
