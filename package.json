@@ -1,0 +1,21 @@
+{
+  "name": "vivifycss",
+  "version": "1.0.0",
+  "description": "Vivify is free CSS animation library",
+  "main": "vivify.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Martz90/vivify.git"
+  },
+  "keywords": [
+    "vivify",
+    "css",
+    "animation"
+  ],
+  "author": "Martin Kníže",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Martz90/vivify/issues"
+  },
+  "homepage": "http://vivify.mkcreative.cz/"
+}
