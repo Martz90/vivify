@@ -570,7 +570,9 @@ THE SOFTWARE.
     transform: translateY(400px) rotate(-445deg); } }
 .popIn {
   -webkit-animation-name: popIn;
-  animation-name: popIn; }
+  animation-name: popIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s; }
 
 @keyframes popIn {
   0% {
@@ -601,7 +603,9 @@ THE SOFTWARE.
     transform: scale3d(1, 1, 1); } }
 .popInLeft {
   -webkit-animation-name: popInLeft;
-  animation-name: popInLeft; }
+  animation-name: popInLeft;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s; }
 
 @keyframes popInLeft {
   0% {
@@ -631,7 +635,9 @@ THE SOFTWARE.
     transform: scale3d(1, 1, 1); } }
 .popInRight {
   -webkit-animation-name: popInRight;
-  animation-name: popInRight; }
+  animation-name: popInRight;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s; }
 
 @keyframes popInRight {
   0% {
@@ -661,7 +667,9 @@ THE SOFTWARE.
     transform: scale3d(1, 1, 1); } }
 .popInTop {
   -webkit-animation-name: popInTop;
-  animation-name: popInTop; }
+  animation-name: popInTop;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s; }
 
 @keyframes popInTop {
   0% {
@@ -691,7 +699,9 @@ THE SOFTWARE.
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1); } }
 .popInBottom {
   -webkit-animation-name: popInBottom;
-  animation-name: popInBottom; }
+  animation-name: popInBottom;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s; }
 
 @keyframes popInBottom {
   0% {
