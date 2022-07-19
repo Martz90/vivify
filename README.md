@@ -1,16 +1,21 @@
-![Vivify Logo](http://vivify.mkcreative.cz/assets/img/vivify.png)
-
-[Vivify web presentation](http://vivify.mkcreative.cz)
-
-Vivify is free CSS animation library.
+Vivify is a free CSS animation library, adding movement and effects such as fading, jumping in, rolling, and spin. Options for changing duration and delay are also editable!
 
 
 ## Usage
-Simply include vivify css file into your document's ```<head>```
+Simply include the vivify css file into your document's ```<head>```
 ```HTML
 <link href="vivify.min.css" rel="stylesheet" type="text/css"/>
 ```
-Add class ```vivify``` to the element you want to animate. If you want your animation to be infinite, you can also add ```infinite``` class.
+Add the class ```vivify``` to the element you want to animate. If you want your animation to be infinite, you can also add the ```infinite``` class.
+
+If you want to quickly change delay or duration you can just add ```delay-``` or ```duration-``` and number in ms.
+**Available times** 
+
+100 **to** 1000: 50 ms increments (150, 200, 250...)
+
+1000 **to** 10750: 250 ms increments (1250, 1500, 1750...)
+
+**example:** ```delay-2500``` for 2.5 second delay. or ```duration-550``` for 550 ms duration.
 
 ### List of class names you can add
 - ball
@@ -81,15 +86,3 @@ Add class ```vivify``` to the element you want to animate. If you want your anim
 - swoopOutRight
 - swoopOutTop
 - unfold
-
-[Preview all animations here](http://vivify.mkcreative.cz)
-
-
-### delay and duration classes
-If you want to quickly change delay or duration you can just add ```delay-``` or ```duration-``` and number in ms.
-
-**Available times:** 
-100,150 **to** 900,950
-1000,1250,1500,1750 **to** 10000,10250,10500,10750
-
-**example:** ```delay-2500``` for 2.5 second delay. or ```duration-550``` for 550 ms duration.
